@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Strona Główna{% endblock %}
+
+{% block body %}
+<style>
+</style>
+
+<div>
+    <div class="container">
+        <h1>Strona główna kreatora Faktur!</h1>
+        {% if app.user %}
+    </div>
+    <div class="container">
+        <h4 class ="header  mb-4 mt-5">Utwórz nowy wpis:</h4>
+    </div>
+    <div class="container">
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Nowa Faktura
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% block formNewInvoice %}
+                            {% form_theme formInvoiceHeader 'bootstrap_5_layout.html.twig' %}
+                            {{ form_start(formInvoiceHeader)}}
+                            {{ form_row(formInvoiceHeader.nr, {
+                                label: 'Nr FV'
+                            }) }}
+                            {{ form_row(formInvoiceHeader.sellingDate, {
+                                label: 'Data Sprzedaży'
+                            }) }}
+                            {{ form_row(formInvoiceHeader.paymentCode, {
+                                label: 'Warunki i Forma Płatności'
+                            }) }}
+                            {{ form_row(formInvoiceHeader.sellTo, {
+                                label: 'Odbiorca FV'
+                            }) }}
+                            {{ form_row(formInvoiceHeader.SellFrom, {
+                                label: 'Firma wystawiająca FV'
+                            }) }}
+                            <input class="btn btn-lg btn-primary" value="Uwtórz Fakturę" type="submit">
+                            {{ form_end(formInvoiceHeader) }}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Nowy klient
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% block formNewClient %}
+                            Zawartość niedostępna w wersji DEMO, proszę korzystać z już istniejących.
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Nowy produkt
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% block formNewProduct %}
+                            Zawartość niedostępna w wersji DEMO, proszę korzystać z już istniejących.
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Nowa Korekta
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        {% block formCreditMemo %}
+                            Zawartość niedostępna w wersji DEMO, możesz edytować Faktóry o typie "proforma".
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="container">
+        <h4 class ="header  mb-4 mt-5">Proszę się zalogować!</h4>
+        <img class="img-fluid" src="data/Books-illustration-on-transparent-background-PNG.png" alt="FV-man">
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

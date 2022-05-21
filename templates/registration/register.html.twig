@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}Rejestracja{% endblock %}
+
+{% block body %}
+    {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
+    {{ form_start(registrationForm) }}
+    <div class="container pt=4 pb=4">
+        <h1 class="h2 mb-4 mt-5">Rejestracja</h1>
+
+        {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.username, {
+                label: 'Nazwa użytkownika'
+            }) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Hasło'
+            }) }}
+            {{ form_row(registrationForm.email, {
+                label: 'E-mail'
+            }) }}
+            {{ form_row(registrationForm.agreeTerms, {
+                label: 'Akceptuję warunki'
+            }) }}
+
+            <button class="btn btn-lg btn-primary" type="submit">Uwtórz Fakturę</button>
+        {{ form_end(registrationForm) }}
+    </div>
+    {{ form_end(registrationForm) }}
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+{% block title %}Edycja FV{% endblock %}
+{% block body %}
+    {% block formEditInvoice %}
+        <div class="container">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="container">
+            <h2>Nanieś zmiany:</h2>
+            {% form_theme formInvoiceHeader 'bootstrap_5_layout.html.twig' %}
+            {{ form_start(formInvoiceHeader)}}
+            {{ form_row(formInvoiceHeader.nr, {
+                label: 'Nr FV'
+            }) }}
+            {{ form_row(formInvoiceHeader.sellingDate, {
+                label: 'Data Sprzedaży'
+            }) }}
+            {{ form_row(formInvoiceHeader.paymentCode, {
+                label: 'Warunki i Forma Płatności'
+            }) }}
+            {{ form_row(formInvoiceHeader.sellTo, {
+                label: 'Odbiorca FV'
+            }) }}
+            {{ form_row(formInvoiceHeader.SellFrom, {
+                label: 'Firma wystawiająca FV'
+            }) }}
+            <input class="btn btn-lg btn-primary" value="Zatwierdź zmiany" type="submit">
+            <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/{{ invoiceheader.id }}">Anuluj</a>
+            {{ form_end(formInvoiceHeader) }}
+        </div>
+    {% endblock %}
+{% endblock %}

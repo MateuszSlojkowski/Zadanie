@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FV Nr {{ invoiceheader.nr }}{% endblock %}
+
+{% block body %}
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+
+    <body>
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+        <h2>FV Nr {{ invoiceheader.nr }}</h2>
+
+        <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/edit/{{ invoiceheader.id }}">Edytuj Dane Faktury</a>
+        <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/delete/{{ invoiceheader.id }}"> Usuń FV</a>
+        <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/post/{{ invoiceheader.id }}">Zaksięguj Fakturę</a>
+        <table>
+            <tr>
+                <th>Id. FV</th>
+                <th>Typ FV</th>
+                <th>Nr FV</th>
+                <th>Data Sprzedaży</th>
+                <th>Data wystawienia</th>
+                <th>kod warunków płatności</th>
+                <th>wystawiający</th>
+                <th>Nazwa sprzedającego</th>
+                <th>Nazwa kupującego</th>
+                <th></th>
+            </tr>
+            <tr>
+                <th>{{ invoiceheader.id }}</th>
+                <th>{{ invoiceheader.type }}</th>
+                <th>{{ invoiceheader.nr }}</th>
+                <th>{{ invoiceheader.sellingDate|date('d.m.Y') }}</th>
+                <th>{{ invoiceheader.postingDate|date('d.m.Y') }}</th>
+                <th>{{ invoiceheader.paymentCode.type }}</th>
+                <th>{{ invoiceheader.user.username }}</th>
+                <th>{{ invoiceheader.sellTo.name }}</th>
+                <th>{{ invoiceheader.SellFrom.name }}</th>
+                <th><a class="nav-link" href="{{ path('app_invoice_list_conroller') }}">wróć</a></th>
+            </tr>
+        </table>
+    {% block InvoiceLines %}
+       {% form_theme formInvoiceLine 'bootstrap_5_layout.html.twig' %}
+        {{ form_start(formInvoiceLine)}}
+        {{ form_row(formInvoiceLine.productId, {
+            label: 'Produkt'
+        }) }}
+        {{ form_row(formInvoiceLine.discount, {
+            label: 'Rabat'
+        }) }}
+        {{ form_row(formInvoiceLine.qty, {
+            label: 'ilość'
+        }) }}
+        <input class="btn btn-lg btn-primary" value="dodaj linię" type="submit">
+    {% endblock %}
+    </body>
+{% endblock %}
