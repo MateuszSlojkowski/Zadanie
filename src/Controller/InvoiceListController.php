@@ -9,8 +9,6 @@ use App\Form\InvoiceLinesType;
 use App\Repository\InvoiceHeaderRepository;
 use App\Service\InvoiceCalculationsService;
 use App\Service\TakeDataFromProductService;
-use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\True_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,18 +22,15 @@ use App\Repository\InvoiceLinesRepository;
 class InvoiceListController extends AbstractController
 {
     private $invoiceHeaderRepository;
-    private $em;
     private $invoiceLinesRepository;
 
     /**
      * @param InvoiceHeaderRepository $invoiceHeaderRepository
-     * @param EntityManagerInterface $em
      * @param InvoiceLinesRepository $invoiceLinesRepository
      */
-    public function __construct(InvoiceHeaderRepository $invoiceHeaderRepository, EntityManagerInterface $em, InvoiceLinesRepository $invoiceLinesRepository)
+    public function __construct(InvoiceHeaderRepository $invoiceHeaderRepository, InvoiceLinesRepository $invoiceLinesRepository)
     {
         $this->invoiceHeaderRepository = $invoiceHeaderRepository;
-        $this->em = $em;
         $this->invoiceLinesRepository = $invoiceLinesRepository;
     }
 

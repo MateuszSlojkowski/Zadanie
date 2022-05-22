@@ -19,6 +19,7 @@
                 crossorigin="anonymous"></script>
     {% endblock %}
 </head>
+{% block main %}
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -47,7 +48,8 @@
                         <a class="nav-link" href="#">Lista Produktów</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Lista Klientów</a>
+                        <a class="nav-link {% if app.request.get('_route') == 'app_clients' %}active{% endif %}"
+                           href="{{ path('app_clients') }}">Lista Klientów</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_logout') }}" tabindex="-1"
@@ -74,7 +76,7 @@
         </div>
     </div>
 </nav>
-
+{% endblock %}
 {% block body %}{% endblock %}
 <footer>
 </footer>

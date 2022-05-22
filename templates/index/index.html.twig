@@ -61,7 +61,9 @@
                          data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             {% block formNewClient %}
-                                Zawartość niedostępna w wersji DEMO, proszę korzystać z już istniejących.
+                                <div>
+                                    <iframe src="{{ path('app_clients_new') }}" height="900" width="600"></iframe>
+                                </div>
                             {% endblock %}
                         </div>
                     </div>

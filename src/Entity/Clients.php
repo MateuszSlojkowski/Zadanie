@@ -49,7 +49,7 @@ class Clients
     private $invoiceHeadersSellFrom;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
-    private $defoult;
+    private $default;
 
     public function __construct()
     {
@@ -240,14 +240,14 @@ class Clients
         return $this;
     }
 
-    public function isDefoult(): ?bool
+    public function isDefault(): ?bool
     {
-        return $this->defoult;
+        return $this->default;
     }
 
-    public function setDefoult(?bool $defoult): self
+    public function setDefault(?bool $default): self
     {
-        $this->defoult = $defoult;
+        $this->default = $default;
 
         return $this;
     }

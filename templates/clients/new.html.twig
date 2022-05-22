@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nowy klient{% endblock %}
+{% block main %}{% endblock %}
+{% block body %}
+    <div>
+        {% form_theme formClient 'bootstrap_5_layout.html.twig' %}
+        {{ form(formClient) }}
+        <input class="btn btn-lg btn-primary" value="Stwórz" type="submit">
+        {{ form_end(formClient) }}
+    </div>
+{% endblock %}

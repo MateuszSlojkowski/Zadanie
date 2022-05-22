@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lista klientów i moich firm{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+
+    <div>
+    <h1>Lista klientów i moich firm</h1>
+    <table>
+    <tr>
+        <th>Id. klienta</th>
+        <th>Typ klienta</th>
+        <th>Nazwa Klienta</th>
+        <th>Kod pocztowy</th>
+        <th>miasto</th>
+        <th>ulica</th>
+        <th>nr ulicy</th>
+        <th>telefon</th>
+        <th>Nr VAT</th>
+        <th>nr konta bankowego</th>
+    </tr>
+
+    {% for client in clients %}
+
+        <tr>
+            <th>{{ client.id }}</th>
+            <th>{{ client.type }}</th>
+            <th>{{ client.name }}</th>
+            <th>{{ client.postCode }}</th>
+            <th>{{ client.city }}</th>
+            <th>{{ client.street }}</th>
+            <th>{{ client.streetNo }}</th>
+            <th>{{ client.phone }}</th>
+            <th>{{ client.vatRegistrationNr }}</th>
+            <th>{{ client.bankAccountNr }}</th>
+        </tr>
+
+    {% endfor %}
+
+{% endblock %}
