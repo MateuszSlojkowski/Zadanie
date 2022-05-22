@@ -1,82 +1,135 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}FV Nr {{ invoiceheader.nr }}{% endblock %}
+{% block title %}FV Nr {{ invoiceHeader.nr }}{% endblock %}
 
 {% block body %}
     <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
 
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
     </style>
 
 
     <body>
     {% for message in app.flashes('success') %}
-    <div class="alert alert-success">
-        {{ message }}
-    </div>
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
     {% endfor %}
     {% for message in app.flashes('error') %}
         <div class="alert alert-danger">
             {{ message }}
         </div>
     {% endfor %}
-        <h2>FV Nr {{ invoiceheader.nr }}</h2>
+    <h2>Faktura {% if(invoiceHeader.type == "Proforma") %}<strong>Proforma </strong>{% endif %}Nr {{ invoiceHeader.nr }}
+    </h2>
+    <h3>Data
+        Sprzedaży: {{ invoiceHeader.sellingDate|date("d.m.Y") }} {% if(invoiceHeader.type != "Proforma") %}Data Zaskięgowania: {% else %}Data utworzenia: {% endif %}{{ invoiceHeader.postingDate|date("d.m.Y") }}</h3>
+    <div class="continer mb-3">
+        <a class="btn btn-lg btn-primary" href="{{ path('app_invoice_list_conroller') }}/edit/{{ invoiceHeader.id }}">Edytuj
+            Dane Faktury</a>
+        <a class="btn btn-lg btn-primary" href="{{ path('app_invoice_list_conroller') }}/delete/{{ invoiceHeader.id }}">
+            Usuń FV</a>
+        <a class="btn btn-lg btn-primary" href="{{ path('app_invoice_list_conroller') }}/post/{{ invoiceHeader.id }}">Zaksięguj
+            Fakturę</a>
+        <a class="btn btn-lg btn-primary" href="{{ path('app_invoice_list_conroller') }}">wróć</a>
+    </div>
+    <table class="table table-bordered">
+        <tr>
+            <th>Sprzedawca:</th>
+            <th>Kupujący</th>
+        </tr>
+        <tr>
+            <th>
+                Nazwa: {{ invoiceHeader.SellFrom.name }}<br>
+                Kod Pocztowy: {{ invoiceHeader.SellFrom.postCode }} Miejscowość: {{ invoiceHeader.SellFrom.city }} <br>
+                Ulica: {{ invoiceHeader.SellFrom.street }}, Lokal: {{ invoiceHeader.SellFrom.nr }} <br>
+                Nr telefonu: {{ invoiceHeader.SellFrom.phone }} Nr konta
+                Bankowego: {{ invoiceHeader.SellFrom.bankAccountNr }} <br>
+                NIP: {{ invoiceHeader.SellFrom.vatRegistrationNr }}
+            </th>
+            <th>
+                Nazwa: {{ invoiceHeader.SellTo.name }}<br>
+                Kod Pocztowy: {{ invoiceHeader.SellTo.postCode }} Miejscowość: {{ invoiceHeader.SellTo.city }} <br>
+                Ulica: {{ invoiceHeader.SellTo.street }}, Lokal: {{ invoiceHeader.SellTo.nr }} <br>
+                Nr telefonu: {{ invoiceHeader.SellTo.phone }} Nr konta
+                Bankowego: {{ invoiceHeader.SellTo.bankAccountNr }} <br>
+                NIP: {{ invoiceHeader.SellTo.vatRegistrationNr }}
+            </th>
+        </tr>
+    </table>
+    <div class="container">
+        {% block InvoiceLines %}
+            {% form_theme formInvoiceLine 'bootstrap_5_layout.html.twig' %}
+            {{ form_start(formInvoiceLine) }}
+            <ul class="list-group list-group-horizontal mt-5 mb-2">
+                <li class="list-group-item">
+                    {{ form_row(formInvoiceLine.productId, {
+                        label: 'Produkt'
+                    }) }}</li>
+                <li class="list-group-item">
+                    {{ form_row(formInvoiceLine.discount, {
+                        label: 'Rabat'
+                    }) }}</li>
+                <li class="list-group-item">
+                    {{ form_row(formInvoiceLine.qty, {
+                        label: 'ilość'
+                    }) }}
+                </li>
+                <li class="list-group-item">
+                    <input class="btn btn-lg btn-primary mt-3" value="dodaj linię" type="submit">
+                </li>
+            </ul>
+            {{ form_end(formInvoiceLine) }}
+        {% endblock %}
+    </div>
+    <h2>Lista pozycji:</h2>
 
-        <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/edit/{{ invoiceheader.id }}">Edytuj Dane Faktury</a>
-        <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/delete/{{ invoiceheader.id }}"> Usuń FV</a>
-        <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/post/{{ invoiceheader.id }}">Zaksięguj Fakturę</a>
-        <table>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Id. Lini</th>
+            <th>Typ linii</th>
+            <th>Nazwa produktu</th>
+            <th>stawka VAT</th>
+            <th>MPP</th>
+            <th>EAN</th>
+            <th>Opis</th>
+            <th>Jednostka miary</th>
+            <th>Cena jednostkowa netto</th>
+            <th>rabat</th>
+            <th>ilość</th>
+            <th>Wartość linii netto po rabacie</th>
+            <th>Wartość linii brutto po rabacie</th>
+            <th></th>
+        </tr>
+
+        {% for invoiceLine in invoiceLines %}
+
             <tr>
-                <th>Id. FV</th>
-                <th>Typ FV</th>
-                <th>Nr FV</th>
-                <th>Data Sprzedaży</th>
-                <th>Data wystawienia</th>
-                <th>kod warunków płatności</th>
-                <th>wystawiający</th>
-                <th>Nazwa sprzedającego</th>
-                <th>Nazwa kupującego</th>
-                <th></th>
+                <th>{{ invoiceLine.id }}</th>
+                <th>{{ invoiceLine.productType }}</th>
+                <th>{{ invoiceLine.productName }}</th>
+                <th>{{ invoiceLine.productVAT }}</th>
+                <th>{{ invoiceLine.productMppRelevant }}</th>
+                <th>{{ invoiceLine.productEAN }}</th>
+                <th>{{ invoiceLine.productDescription }}</th>
+                <th>{{ invoiceLine.productUnit }}</th>
+                <th>{{ invoiceLine.productPrice }}</th>
+                <th>{{ invoiceLine.discount }}</th>
+                <th>{{ invoiceLine.qty }}</th>
+                <th>{{ invoiceLineNett[invoiceLine.id] }}</th>
+                <th>{{ invoiceLineBrutto[invoiceLine.id] }}</th>
+                <th><a class="btn btn-lg btn-primary"
+                       href="{{ path('app_invoice_list_conroller') }}/deleteline/{{ invoiceLine.id }}"> Usuń Linię</a>
+                </th>
             </tr>
-            <tr>
-                <th>{{ invoiceheader.id }}</th>
-                <th>{{ invoiceheader.type }}</th>
-                <th>{{ invoiceheader.nr }}</th>
-                <th>{{ invoiceheader.sellingDate|date('d.m.Y') }}</th>
-                <th>{{ invoiceheader.postingDate|date('d.m.Y') }}</th>
-                <th>{{ invoiceheader.paymentCode.type }}</th>
-                <th>{{ invoiceheader.user.username }}</th>
-                <th>{{ invoiceheader.sellTo.name }}</th>
-                <th>{{ invoiceheader.SellFrom.name }}</th>
-                <th><a class="nav-link" href="{{ path('app_invoice_list_conroller') }}">wróć</a></th>
-            </tr>
-        </table>
-    {% block InvoiceLines %}
-       {% form_theme formInvoiceLine 'bootstrap_5_layout.html.twig' %}
-        {{ form_start(formInvoiceLine)}}
-        {{ form_row(formInvoiceLine.productId, {
-            label: 'Produkt'
-        }) }}
-        {{ form_row(formInvoiceLine.discount, {
-            label: 'Rabat'
-        }) }}
-        {{ form_row(formInvoiceLine.qty, {
-            label: 'ilość'
-        }) }}
-        <input class="btn btn-lg btn-primary" value="dodaj linię" type="submit">
-    {% endblock %}
+
+        {% endfor %}
+    </table>
+    <div class="container mt-3">
+        <h2>Wartość FV Brutto: <span class="badge bg-secondary">{{ invoiceBrutto }}</span></h2>
+    </div>
+
+
     </body>
+
+
 {% endblock %}

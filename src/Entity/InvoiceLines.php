@@ -52,6 +52,9 @@ class InvoiceLines
     #[ORM\Column(type: 'string', length: 255)]
     private $productUnit;
 
+    #[ORM\Column(type: 'float')]
+    private $productPrice;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -198,6 +201,18 @@ class InvoiceLines
     public function setProductUnit(string $productUnit): self
     {
         $this->productUnit = $productUnit;
+
+        return $this;
+    }
+
+    public function getProductPrice(): ?float
+    {
+        return $this->productPrice;
+    }
+
+    public function setProductPrice(float $productPrice): self
+    {
+        $this->productPrice = $productPrice;
 
         return $this;
     }

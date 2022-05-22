@@ -39,6 +39,9 @@ class Products
     #[ORM\OneToMany(mappedBy: 'productId', targetEntity: InvoiceLines::class)]
     private $invoiceLines;
 
+    #[ORM\Column(type: 'float')]
+    private $price;
+
     public function __construct()
     {
         $this->invoiceLines = new ArrayCollection();
@@ -159,6 +162,18 @@ class Products
                 $invoiceLine->setProductId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
