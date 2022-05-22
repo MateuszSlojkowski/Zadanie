@@ -10,6 +10,7 @@ use App\Repository\InvoiceHeaderRepository;
 use App\Service\InvoiceCalculationsService;
 use App\Service\TakeDataFromProductService;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\True_;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,8 +49,7 @@ class InvoiceListController extends AbstractController
         $invoiceLine = $this->invoiceLinesRepository->find($id);
         $invoiceHeader = $invoiceLine->getInvoiceId();
         if ($invoiceHeader->getType() != "Zaksięgowana") {
-            $this->em->remove($invoiceLine);
-            $this->em->flush();
+            $this->invoiceLinesRepository->remove($invoiceLine, true);
             $this->addFlash('success', 'Linia FV została wykasowana!');
             return $this->redirectToRoute('app_invoice_conroller', ['id' => $invoiceHeader->getId()]);
         } else {
@@ -63,7 +63,7 @@ class InvoiceListController extends AbstractController
      */
 
     #[Route('/invoicelist', methods: ['GET'], name: 'app_invoice_list_conroller')]
-    public function index(): Response
+    public function list(): Response
     {
         $invoiceHeaders = $this->invoiceHeaderRepository->findAll();
 
@@ -95,8 +95,7 @@ class InvoiceListController extends AbstractController
             if (!$formInvoiceLine->isValid()) {
                 $this->addFlash('error', 'Sprawdź poprawność danych!');
             } elseif ($invoiceHeader->getType() != "Zaksięgowana") {
-                $this->em->persist($newInvoiceLine);
-                $this->em->flush();
+                $this->invoiceLinesRepository->add($newInvoiceLine, true);
                 $this->addFlash('success', 'Linia została utworzona!');
             } else {
                 $this->addFlash('error', 'Nie możesz dodawać linii do zaksięgowanej FV!');
@@ -128,9 +127,7 @@ class InvoiceListController extends AbstractController
             $newInvoiceHeader->setPostingDate(new \DateTime());
             $newInvoiceHeader->setUser($this->getUser());
             $newInvoiceHeader->setType("Proforma");
-
-            $this->em->persist($newInvoiceHeader);
-            $this->em->flush();
+            $this->invoiceHeaderRepository->add($newInvoiceHeader, true);
             $this->addFlash('success', 'Nagłówek FV został utworzony');
             return $this->redirectToRoute('app_invoice_conroller', ['id' => $newInvoiceHeader->getId()]);
         }
@@ -154,8 +151,7 @@ class InvoiceListController extends AbstractController
         if ($formInvoiceHeader->isSubmitted() && $formInvoiceHeader->isValid()) {
             $newInvoiceHeader = $formInvoiceHeader->getData();
             if ($newInvoiceHeader->getType() != "Zaksięgowana") {
-                $this->em->persist($newInvoiceHeader);
-                $this->em->flush();
+                $this->invoiceHeaderRepository->add($newInvoiceHeader, true);
                 $this->addFlash('success', 'Zmiany zostały naniesione');
                 return $this->redirectToRoute('app_invoice_conroller', ['id' => $newInvoiceHeader->getId()]);
             } else {
@@ -179,11 +175,9 @@ class InvoiceListController extends AbstractController
         if ($invoiceHeader->getType() != "Zaksięgowana") {
             $invoiceLines = $this->invoiceLinesRepository->findBy(['invoiceId' => $id]);
             foreach ($invoiceLines as $invoiceLine) {
-                $this->em->remove($invoiceLine);
-                $this->em->flush();
+                $this->invoiceLinesRepository->remove($invoiceLine, true);
             }
-            $this->em->remove($invoiceHeader);
-            $this->em->flush();
+            $this->invoiceHeaderRepository->remove($invoiceHeader, true);
             $this->addFlash('success', 'Faktura proforma została wykasowana');
             return $this->redirectToRoute('app_invoice_list_conroller');
         } else {
@@ -207,8 +201,7 @@ class InvoiceListController extends AbstractController
             $invoiceHeader->setType("Zaksięgowana");
             $invoiceHeader->setPostingDate(new \DateTime());
             $invoiceHeader->setNr(strval(count($LastInvoiceHeader) + 1));
-            $this->em->persist($invoiceHeader);
-            $this->em->flush();
+            $this->invoiceHeaderRepository->add($invoiceHeader, true);
             $this->addFlash('success', 'Faktura zostałą zaksięgowana! Nowy numer został nadany automatycznie.');
             return $this->redirectToRoute('app_invoice_conroller', ['id' => $invoiceHeader->getId()]);
         } else {
