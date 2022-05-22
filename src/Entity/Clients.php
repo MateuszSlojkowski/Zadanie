@@ -31,7 +31,7 @@ class Clients
     private $street;
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $nr; //street nr
+    private $streetNo;
 
     #[ORM\Column(type: 'integer')]
     private $phone;
@@ -43,10 +43,10 @@ class Clients
     private $vatRegistrationNr;
 
     #[ORM\OneToMany(mappedBy: 'sellTo', targetEntity: InvoiceHeader::class)]
-    private $InvoiceHeadersSellTo;
+    private $invoiceHeadersSellTo;
 
-    #[ORM\OneToMany(mappedBy: 'SellFrom', targetEntity: InvoiceHeader::class)]
-    private $InvoiceHeadersSellFrom;
+    #[ORM\OneToMany(mappedBy: 'sellFrom', targetEntity: InvoiceHeader::class)]
+    private $invoiceHeadersSellFrom;
 
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $defoult;
@@ -54,8 +54,8 @@ class Clients
     public function __construct()
     {
         $this->invoiceHeaders = new ArrayCollection();
-        $this->InvoiceHeadersSellTo = new ArrayCollection();
-        $this->InvoiceHeadersSellFrom = new ArrayCollection();
+        $this->invoiceHeadersSellTo = new ArrayCollection();
+        $this->invoiceHeadersSellFrom = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,14 +123,14 @@ class Clients
         return $this;
     }
 
-    public function getNr(): ?string
+    public function getStreetNo(): ?string
     {
-        return $this->nr;
+        return $this->streetNo;
     }
 
-    public function setNr(string $nr): self
+    public function setStreetNo(string $streetNo): self
     {
-        $this->nr = $nr;
+        $this->streetNo = $streetNo;
 
         return $this;
     }
@@ -185,25 +185,25 @@ class Clients
      */
     public function getInvoiceHeadersSellTo(): Collection
     {
-        return $this->InvoiceHeadersSellTo;
+        return $this->invoiceHeadersSellTo;
     }
 
-    public function addInvoiceHeadersSellTo(InvoiceHeader $invoiceHeadersSellTo): self
+    public function addInvoiceHeadersSellTo(InvoiceHeader $invoiceHeaderSellTo): self
     {
-        if (!$this->InvoiceHeadersSellTo->contains($invoiceHeadersSellTo)) {
-            $this->InvoiceHeadersSellTo[] = $invoiceHeadersSellTo;
-            $invoiceHeadersSellTo->setSellTo($this);
+        if (!$this->invoiceHeadersSellTo->contains($invoiceHeaderSellTo)) {
+            $this->invoiceHeadersSellTo[] = $invoiceHeaderSellTo;
+            $invoiceHeaderSellTo->setSellTo($this);
         }
 
         return $this;
     }
 
-    public function removeInvoiceHeadersSellTo(InvoiceHeader $invoiceHeadersSellTo): self
+    public function removeInvoiceHeadersSellTo(InvoiceHeader $invoiceHeaderSellTo): self
     {
-        if ($this->InvoiceHeadersSellTo->removeElement($invoiceHeadersSellTo)) {
+        if ($this->invoiceHeadersSellTo->removeElement($invoiceHeaderSellTo)) {
             // set the owning side to null (unless already changed)
-            if ($invoiceHeadersSellTo->getSellTo() === $this) {
-                $invoiceHeadersSellTo->setSellTo(null);
+            if ($invoiceHeaderSellTo->getSellTo() === $this) {
+                $invoiceHeaderSellTo->setSellTo(null);
             }
         }
 
@@ -215,25 +215,25 @@ class Clients
      */
     public function getInvoiceHeadersSellFrom(): Collection
     {
-        return $this->InvoiceHeadersSellFrom;
+        return $this->invoiceHeadersSellFrom;
     }
 
-    public function addInvoiceHeadersSellFrom(InvoiceHeader $invoiceHeadersSellFrom): self
+    public function addInvoiceHeadersSellFrom(InvoiceHeader $invoiceHeaderSellFrom): self
     {
-        if (!$this->InvoiceHeadersSellFrom->contains($invoiceHeadersSellFrom)) {
-            $this->InvoiceHeadersSellFrom[] = $invoiceHeadersSellFrom;
-            $invoiceHeadersSellFrom->setSellFrom($this);
+        if (!$this->invoiceHeadersSellFrom->contains($invoiceHeaderSellFrom)) {
+            $this->invoiceHeadersSellFrom[] = $invoiceHeaderSellFrom;
+            $invoiceHeaderSellFrom->setSellFrom($this);
         }
 
         return $this;
     }
 
-    public function removeInvoiceHeadersSellFrom(InvoiceHeader $invoiceHeadersSellFrom): self
+    public function removeInvoiceHeadersSellFrom(InvoiceHeader $invoiceHeaderSellFrom): self
     {
-        if ($this->InvoiceHeadersSellFrom->removeElement($invoiceHeadersSellFrom)) {
+        if ($this->invoiceHeadersSellFrom->removeElement($invoiceHeaderSellFrom)) {
             // set the owning side to null (unless already changed)
-            if ($invoiceHeadersSellFrom->getSellFrom() === $this) {
-                $invoiceHeadersSellFrom->setSellFrom(null);
+            if ($invoiceHeaderSellFrom->getSellFrom() === $this) {
+                $invoiceHeaderSellFrom->setSellFrom(null);
             }
         }
 

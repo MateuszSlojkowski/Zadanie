@@ -19,7 +19,7 @@ class InvoiceLinesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('qty', NumberType::class, [
+            ->add('quantity', NumberType::class, [
                 'constraints' => [
                     new GreaterThan(
                         ['value' => 0.0001])
@@ -34,20 +34,10 @@ class InvoiceLinesType extends AbstractType
                         ['value' => 0])
                 ]
             ])
-            //->add('productType')
-            //->add('productName')
-            //->add('productVAT')
-            //->add('productMppRelevant')
-            //->add('productEAN')
-            //->add('productDescription')
-            //->add('productUnit')
             ->add('productId', EntityType::class, [
                 'class' => Products::class,
                 'choice_label' => 'description',
-            ])
-            //->add('invoiceId')
-            //->add('user')
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

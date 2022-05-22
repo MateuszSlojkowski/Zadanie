@@ -7,7 +7,7 @@ class TakeDataFromProductService
 
     //this function is copying data from Product to Invoice Line
 
-    public function TakeDataFromProduct($newInvoiceLine)
+    public function takeDataFromProduct($newInvoiceLine)
     {
         $newInvoiceLine->setproductType($newInvoiceLine->getProductId()->getType());
         $newInvoiceLine->setproductName($newInvoiceLine->getProductId()->getName());

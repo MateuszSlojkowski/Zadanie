@@ -65,10 +65,10 @@ class InvoiceListController extends AbstractController
     #[Route('/invoicelist', methods: ['GET'], name: 'app_invoice_list_conroller')]
     public function index(): Response
     {
-        $invoiceheaders = $this->invoiceHeaderRepository->findAll();
+        $invoiceHeaders = $this->invoiceHeaderRepository->findAll();
 
         return $this->render('invoice_list_conroller/index.html.twig', [
-            'invoiceheaders' => $invoiceheaders
+            'invoiceHeaders' => $invoiceHeaders
         ]);
     }
 
@@ -89,7 +89,7 @@ class InvoiceListController extends AbstractController
         if ($formInvoiceLine->isSubmitted()) {
             $newInvoiceLine = $formInvoiceLine->getData();
             //this function is copying data from Product to Invoice Line
-            $takeDataFromProductService->TakeDataFromProduct($newInvoiceLine);
+            $takeDataFromProductService->takeDataFromProduct($newInvoiceLine);
             $newInvoiceLine->setinvoiceId($invoiceHeader);
             $newInvoiceLine->setuser($this->getUser());
             if (!$formInvoiceLine->isValid()) {
@@ -108,8 +108,8 @@ class InvoiceListController extends AbstractController
             'formInvoiceLine' => $formInvoiceLine->createView(),
             'invoiceLines' => $this->invoiceLinesRepository->findBy(['invoiceId' => $id], []),
             'invoiceLineNett' => $invoiceCalculationsService->CalculateInvoiceLineNett($this->invoiceLinesRepository->findBy(['invoiceId' => $id], [])),
-            'invoiceLineBrutto' => $invoiceCalculationsService->CalculateInvoiceLineBrutto($this->invoiceLinesRepository->findBy(['invoiceId' => $id], [])),
-            'invoiceBrutto' => $invoiceCalculationsService->CalculateInvoiceBrutto($this->invoiceLinesRepository->findBy(['invoiceId' => $id], []))
+            'invoiceLineGross' => $invoiceCalculationsService->CalculateInvoiceLineGross($this->invoiceLinesRepository->findBy(['invoiceId' => $id], [])),
+            'invoiceGross' => $invoiceCalculationsService->CalculateInvoiceGross($this->invoiceLinesRepository->findBy(['invoiceId' => $id], []))
         ]);
     }
 
@@ -122,9 +122,7 @@ class InvoiceListController extends AbstractController
     {
         $invoiceHeader = new InvoiceHeader();
         $formInvoiceHeader = $this->createForm(CreateInvoiceHeaderType::class, $invoiceHeader);
-        //taking data imputed by user from form
         $formInvoiceHeader->handleRequest($request);
-        //checking data from form and sending to database
         if ($formInvoiceHeader->isSubmitted() && $formInvoiceHeader->isValid()) {
             $newInvoiceHeader = $formInvoiceHeader->getData();
             $newInvoiceHeader->setPostingDate(new \DateTime());

@@ -12,7 +12,7 @@
         <div class="container">
             <h2>Nanieś zmiany:</h2>
             {% form_theme formInvoiceHeader 'bootstrap_5_layout.html.twig' %}
-            {{ form_start(formInvoiceHeader)}}
+            {{ form_start(formInvoiceHeader) }}
             {{ form_row(formInvoiceHeader.nr, {
                 label: 'Nr FV'
             }) }}
@@ -29,7 +29,7 @@
                 label: 'Firma wystawiająca FV'
             }) }}
             <input class="btn btn-lg btn-primary" value="Zatwierdź zmiany" type="submit">
-            <a class="btn btn-lg btn-primary" href="{{path('app_invoice_list_conroller') }}/{{ invoiceheader.id }}">Anuluj</a>
+            <a class="btn btn-lg btn-primary" href="{{ path('app_invoice_list_conroller') }}/{{ invoiceheader.id }}">Anuluj</a>
             {{ form_end(formInvoiceHeader) }}
         </div>
     {% endblock %}

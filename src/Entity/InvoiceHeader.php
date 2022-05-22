@@ -38,11 +38,11 @@ class InvoiceHeader
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
-    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'InvoiceHeadersSellTo')]
+    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'invoiceHeadersSellTo')]
     private $sellTo;
 
-    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'InvoiceHeadersSellFrom')]
-    private $SellFrom;
+    #[ORM\ManyToOne(targetEntity: Clients::class, inversedBy: 'invoiceHeadersSellFrom')]
+    private $sellFrom;
 
     public function __construct()
     {
@@ -175,12 +175,12 @@ class InvoiceHeader
 
     public function getSellFrom(): ?Clients
     {
-        return $this->SellFrom;
+        return $this->sellFrom;
     }
 
-    public function setSellFrom(?Clients $SellFrom): self
+    public function setSellFrom(?Clients $sellFrom): self
     {
-        $this->SellFrom = $SellFrom;
+        $this->sellFrom = $sellFrom;
 
         return $this;
     }

@@ -14,7 +14,7 @@ class InvoiceLines
     private $id;
 
     #[ORM\Column(type: 'float')]
-    private $qty;
+    private $quantity;
 
     #[ORM\Column(type: 'float')]
     private $discount;
@@ -61,14 +61,14 @@ class InvoiceLines
     }
 
 
-    public function getQty(): ?float
+    public function getQuantity(): ?float
     {
-        return $this->qty;
+        return $this->quantity;
     }
 
-    public function setQty(float $qty): self
+    public function setQuantity(float $quantity): self
     {
-        $this->qty = $qty;
+        $this->quantity = $quantity;
 
         return $this;
     }

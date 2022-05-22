@@ -37,7 +37,7 @@ class CreateInvoiceHeaderType extends AbstractType
                     'clients_sellTo'
                 ),
             ])
-            ->add('SellFrom', EntityType::class, [
+            ->add('sellFrom', EntityType::class, [
                 'class' => Clients::class,
                 'choice_label' => 'name',
                 'choice_filter' => ChoiceList::filter(
@@ -48,7 +48,7 @@ class CreateInvoiceHeaderType extends AbstractType
                         } else
                             return 0;
                     },
-                    'clients_SellFrom'
+                    'clients_sellFrom'
                 ),
             ]);
     }

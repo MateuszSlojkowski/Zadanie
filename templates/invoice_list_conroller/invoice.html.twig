@@ -41,7 +41,7 @@
             <th>
                 Nazwa: {{ invoiceHeader.SellFrom.name }}<br>
                 Kod Pocztowy: {{ invoiceHeader.SellFrom.postCode }} Miejscowość: {{ invoiceHeader.SellFrom.city }} <br>
-                Ulica: {{ invoiceHeader.SellFrom.street }}, Lokal: {{ invoiceHeader.SellFrom.nr }} <br>
+                Ulica: {{ invoiceHeader.SellFrom.street }}, Lokal: {{ invoiceHeader.SellFrom.streetNo }} <br>
                 Nr telefonu: {{ invoiceHeader.SellFrom.phone }} Nr konta
                 Bankowego: {{ invoiceHeader.SellFrom.bankAccountNr }} <br>
                 NIP: {{ invoiceHeader.SellFrom.vatRegistrationNr }}
@@ -49,7 +49,7 @@
             <th>
                 Nazwa: {{ invoiceHeader.SellTo.name }}<br>
                 Kod Pocztowy: {{ invoiceHeader.SellTo.postCode }} Miejscowość: {{ invoiceHeader.SellTo.city }} <br>
-                Ulica: {{ invoiceHeader.SellTo.street }}, Lokal: {{ invoiceHeader.SellTo.nr }} <br>
+                Ulica: {{ invoiceHeader.SellTo.street }}, Lokal: {{ invoiceHeader.SellTo.streetNo }} <br>
                 Nr telefonu: {{ invoiceHeader.SellTo.phone }} Nr konta
                 Bankowego: {{ invoiceHeader.SellTo.bankAccountNr }} <br>
                 NIP: {{ invoiceHeader.SellTo.vatRegistrationNr }}
@@ -70,7 +70,7 @@
                         label: 'Rabat'
                     }) }}</li>
                 <li class="list-group-item">
-                    {{ form_row(formInvoiceLine.qty, {
+                    {{ form_row(formInvoiceLine.quantity, {
                         label: 'ilość'
                     }) }}
                 </li>
@@ -114,9 +114,9 @@
                 <th>{{ invoiceLine.productUnit }}</th>
                 <th>{{ invoiceLine.productPrice }}</th>
                 <th>{{ invoiceLine.discount }}</th>
-                <th>{{ invoiceLine.qty }}</th>
+                <th>{{ invoiceLine.quantity }}</th>
                 <th>{{ invoiceLineNett[invoiceLine.id] }}</th>
-                <th>{{ invoiceLineBrutto[invoiceLine.id] }}</th>
+                <th>{{ invoiceLineGross[invoiceLine.id] }}</th>
                 <th><a class="btn btn-lg btn-primary"
                        href="{{ path('app_invoice_list_conroller') }}/deleteline/{{ invoiceLine.id }}"> Usuń Linię</a>
                 </th>
@@ -125,7 +125,7 @@
         {% endfor %}
     </table>
     <div class="container mt-3">
-        <h2>Wartość FV Brutto: <span class="badge bg-secondary">{{ invoiceBrutto }}</span></h2>
+        <h2>Wartość FV Brutto: <span class="badge bg-secondary">{{ invoiceGross }}</span></h2>
     </div>
 
 

@@ -3,64 +3,74 @@
 {% block title %}Lista Faktur{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-    table {
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+
+        table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
-    }
+        }
 
-    td, th {
+        td, th {
             border: 1px solid #dddddd;
             text-align: left;
             padding: 8px;
-    }
+        }
 
-    tr:nth-child(even) {
+        tr:nth-child(even) {
             background-color: #dddddd;
-    }
-</style>
+        }
+    </style>
 
 
-<body>
-<h2>Lista FV</h2>
-{% for message in app.flashes('success') %}
+    <body>
+    <h2>Lista FV</h2>
+    {% for message in app.flashes('success') %}
         <div class="alert alert-success">
-                {{ message }}
+            {{ message }}
         </div>
-{% endfor %}
-        <table>
-                <tr>
-                        <th>Id. FV</th>
-                        <th>Typ FV</th>
-                        <th>Nr FV</th>
-                        <th>Data Sprzedaży</th>
-                        <th>Data wystawienia</th>
-                        <th>kod warunków płatności</th>
-                        <th>wystawiający</th>
-                        <th>Nazwa sprzedającego</th>
-                        <th>Nazwa kupującego</th>
-                        <th></th>
-                </tr>
+    {% endfor %}
+    <table>
+        <tr>
+            <th>Id. FV</th>
+            <th>Typ FV</th>
+            <th>Nr FV</th>
+            <th>Data Sprzedaży</th>
+            <th>Data wystawienia</th>
+            <th>kod warunków płatności</th>
+            <th>wystawiający</th>
+            <th>Nazwa sprzedającego</th>
+            <th>Nazwa kupującego</th>
+            <th></th>
+        </tr>
 
-        {% for InvoiceHeader in invoiceheaders %}
+        {% for InvoiceHeader in invoiceHeaders %}
 
-                        <tr>
-                                <th>{{ InvoiceHeader.id }}</th>
-                                <th>{{ InvoiceHeader.type }}</th>
-                                <th>{{ InvoiceHeader.nr }}</th>
-                                <th>{{ InvoiceHeader.sellingDate|date('d.m.Y') }}</th>
-                                <th>{{ InvoiceHeader.postingDate|date('d.m.Y') }}</th>
-                                <th>{{ InvoiceHeader.paymentCode.type }}</th>
-                                <th>{{ InvoiceHeader.user.username }}</th>
-                                <th>{{ InvoiceHeader.sellTo.name }}</th>
-                                <th>{{ InvoiceHeader.SellFrom.name }}</th>
-                                <th><a class="nav-link" href="/invoicelist/{{ InvoiceHeader.id }}">Wyświetl</a></th>
-                        </tr>
+            <tr>
+                <th>{{ InvoiceHeader.id }}</th>
+                <th>{{ InvoiceHeader.type }}</th>
+                <th>{{ InvoiceHeader.nr }}</th>
+                <th>{{ InvoiceHeader.sellingDate|date('d.m.Y') }}</th>
+                <th>{{ InvoiceHeader.postingDate|date('d.m.Y') }}</th>
+                <th>{{ InvoiceHeader.paymentCode.type }}</th>
+                <th>{{ InvoiceHeader.user.username }}</th>
+                <th>{{ InvoiceHeader.sellTo.name }}</th>
+                <th>{{ InvoiceHeader.SellFrom.name }}</th>
+                <th><a class="nav-link" href="/invoicelist/{{ InvoiceHeader.id }}">Wyświetl</a></th>
+            </tr>
 
-            {% endfor %}
-        </table>
-</body>
+        {% endfor %}
+    </table>
+    </body>
 {% endblock %}
