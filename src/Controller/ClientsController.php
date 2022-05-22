@@ -33,25 +33,25 @@ class ClientsController extends AbstractController
     }
 
     /**
-     * @param Request $request
+     * @param Request $request2
      * @return Response
      */
     #[Route('/clients/new', name: 'app_clients_new')]
-    public function new(Request $request): Response
+    public function new(Request $request2): Response
     {
         $newClient = new Clients();
         $formClient = $this->createForm(ClientsType::class, $newClient);
-        $formClient->handleRequest($request);
+        $formClient->handleRequest($request2);
         if ($formClient->isSubmitted() && $formClient->isValid()) {
             $newClient = $formClient->getData();
-            $newClient->addInvoiceHeadersSellFrom();
-            $newClient->addInvoiceHeadersSellTo();
             $this->clientsRepository->add($newClient, true);
             $this->addFlash('success', 'Klient został dodany');
-            return $this->redirectToRoute('app_invoice_conroller');
-        } else {
+            return $this->redirectToRoute('app_clients_new');
+        } elseif ($formClient->isSubmitted()) {
             $this->addFlash('error', 'coś poszło nie tak!');
         }
+
+
         return $this->render('clients/new.html.twig', [
             'formClient' => $formClient->createView()
         ]);

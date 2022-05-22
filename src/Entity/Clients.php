@@ -48,8 +48,6 @@ class Clients
     #[ORM\OneToMany(mappedBy: 'sellFrom', targetEntity: InvoiceHeader::class)]
     private $invoiceHeadersSellFrom;
 
-    #[ORM\Column(type: 'boolean', nullable: true)]
-    private $default;
 
     public function __construct()
     {
@@ -236,18 +234,6 @@ class Clients
                 $invoiceHeaderSellFrom->setSellFrom(null);
             }
         }
-
-        return $this;
-    }
-
-    public function isDefault(): ?bool
-    {
-        return $this->default;
-    }
-
-    public function setDefault(?bool $default): self
-    {
-        $this->default = $default;
 
         return $this;
     }

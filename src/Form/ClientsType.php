@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Clients;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,7 +13,12 @@ class ClientsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('type')
+            ->add('type', ChoiceType::class, [
+                'choices' => [
+                    'Nowy odbiorca FV' => 'company client',
+                    'Moja nowa firma' => 'me',
+                ],
+            ])
             ->add('name')
             ->add('postCode')
             ->add('city')
@@ -20,8 +26,7 @@ class ClientsType extends AbstractType
             ->add('streetNo')
             ->add('phone')
             ->add('bankAccountNr')
-            ->add('vatRegistrationNr')
-            ->add('default');
+            ->add('vatRegistrationNr');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
