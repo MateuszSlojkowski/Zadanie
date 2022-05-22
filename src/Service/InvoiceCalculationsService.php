@@ -11,7 +11,7 @@ class InvoiceCalculationsService
      * @param $invoiceLines
      * @return array|int
      */
-    public function CalculateInvoiceLineNett($invoiceLines)
+    public function calculateInvoiceLineNett($invoiceLines)
     {
         if (count($invoiceLines) != 0) {
             foreach ($invoiceLines as $invoiceLine) {
@@ -31,7 +31,7 @@ class InvoiceCalculationsService
      * @return array|int
      */
 
-    public function CalculateInvoiceLineGross($invoiceLines)
+    public function calculateInvoiceLineGross($invoiceLines)
     {
         if (count($invoiceLines) != 0) {
             foreach ($invoiceLines as $invoiceLine) {
@@ -47,7 +47,7 @@ class InvoiceCalculationsService
      * @param $invoiceLines
      * @return float|int
      */
-    public function CalculateInvoiceGross($invoiceLines)
+    public function calculateInvoiceGross($invoiceLines)
     {
         $invoiceGross = 0;
         foreach ($invoiceLines as $invoiceLine) {

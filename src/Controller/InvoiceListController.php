@@ -107,9 +107,9 @@ class InvoiceListController extends AbstractController
             'invoiceHeader' => $invoiceHeader,
             'formInvoiceLine' => $formInvoiceLine->createView(),
             'invoiceLines' => $this->invoiceLinesRepository->findBy(['invoiceId' => $id], []),
-            'invoiceLineNett' => $invoiceCalculationsService->CalculateInvoiceLineNett($this->invoiceLinesRepository->findBy(['invoiceId' => $id], [])),
-            'invoiceLineGross' => $invoiceCalculationsService->CalculateInvoiceLineGross($this->invoiceLinesRepository->findBy(['invoiceId' => $id], [])),
-            'invoiceGross' => $invoiceCalculationsService->CalculateInvoiceGross($this->invoiceLinesRepository->findBy(['invoiceId' => $id], []))
+            'invoiceLineNett' => $invoiceCalculationsService->calculateInvoiceLineNett($this->invoiceLinesRepository->findBy(['invoiceId' => $id], [])),
+            'invoiceLineGross' => $invoiceCalculationsService->calculateInvoiceLineGross($this->invoiceLinesRepository->findBy(['invoiceId' => $id], [])),
+            'invoiceGross' => $invoiceCalculationsService->calculateInvoiceGross($this->invoiceLinesRepository->findBy(['invoiceId' => $id], []))
         ]);
     }
 
